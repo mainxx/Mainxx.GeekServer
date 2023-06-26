@@ -1,5 +1,5 @@
 # 网络
-GeekServer网络层使用kestrel，GeekServer目前只接入了tcp和http，但是kestrel是支持UDP，websocket，Http123，singalr等几乎所有的常见协议的，如有所需请自行接入（工作量很小）。
+GeekServer网络层使用kestrel，GeekServer目前只接入了tcp,websocket和http，但是kestrel是支持UDP，Http123，singalr等几乎所有的常见协议的，如有所需请自行接入（工作量很小）。
 
 ### donetty vs kestrel
 ![](https://github.com/leeveel/GeekServer/blob/main/Docs/imgs/dotnetty.png)
