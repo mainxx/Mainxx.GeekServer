@@ -88,7 +88,7 @@ public Task NotifyAllClient()
    }
 }
 
-[Api]
+[Service]
 [Discard]
 public virtual Task NotifyOneClient(long roleId)
 {
@@ -96,7 +96,7 @@ public virtual Task NotifyOneClient(long roleId)
    //...
 }
 ```
-5.CompAgent中为需要提供给外部访问接口，标记[Api]注解，如果不加外部又有访问，**则会有线程安全问题**，除非此接口本身就是线程安全的(标记了[ThreadSafe]注解)。 
+5.CompAgent中为需要提供给外部访问接口，标记[Service]注解，如果不加外部又有访问，**则会有线程安全问题**，除非此接口本身就是线程安全的(标记了[ThreadSafe]注解)。 
 ```c#
 public class ServerCompAgent : StateCompAgent<ServerComp, ServerState>
 {
@@ -107,10 +107,10 @@ public class ServerCompAgent : StateCompAgent<ServerComp, ServerState>
     }
 
     /// <summary>
-    /// 由于此接口会提供给其他Actor访问，所以需要标记为[Api]
+    /// 由于此接口会提供给其他Actor访问，所以需要标记为[Service]
     /// </summary>
     /// <returns></returns>
-    [Api]
+    [Service]
     public virtual Task<int> GetWorldLevel()
     {
         return Task.FromResult(State.WorldLevel);
