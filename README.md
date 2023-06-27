@@ -34,7 +34,7 @@ Actor模型本身是存在死锁的情况，且不容易被发现。GeekServer�
 
 # 运行
 1. 安装[.NetCore6.0或更新的SDK](https://dotnet.microsoft.com/download/dotnet/6.0)，**协议工具需要安装.Net5.0**(MessagePack代码生成工具依赖了此版本)
-2. 安装[mongodb4.x](https://www.mongodb.com/try/download/community)
+2. 安装[mongodb4.x](https://www.mongodb.com/try/download/community)(可选，内嵌模式下不需要安装)
 3. 打开git clone本项目https://github.com/leeveel/GeekServer.git
 4. 运行Tools/ExcelGen/ExcelToCode.exe 点击[服务器-ALL]导出配置表
 5. 用VisualStudio2022打开GeekServer.sln 启动GeekServer.App
@@ -73,8 +73,8 @@ public class RoleCompAgent : StateComponentAgent<RoleComp, RoleState>{}
 # 最佳实践
 GeekServer有严格的书写规范检查，如不符合规范编译直接报错  
 1.CompAgent不能被二次继承，Agent继承的需求理论上很少，如果有请采用组合模式  
-2.为CompAgent中需要被外部提供服务的接口，添加【Api】注解  
-3.CompAgent中非【Threadsafe】的【Api】接口只能是异步函数    
+2.为CompAgent中需要被外部提供服务的接口，添加【Service】注解  
+3.CompAgent中非【Threadsafe】的【Service】接口只能是异步函数    
 4.CompAgent中不要书写构造函数,重写Active函数来完成初始化工作  
 5.大部分情况下你都应该使用await等待来书写逻辑，不需要等待的方法请加上【Discard】注解，如：通知全服玩家，就没必要等待一个通知完成后再通知下一个。  同时[Source Generator](https://docs.microsoft.com/en-us/dotnet/csharp/roslyn-sdk/source-generators-overview)在编译期间对标记了【Discard】的函数做了处理，内部直接返回了Task.CompletedTask，所以外部使用下划线丢弃或是用await都是等价的，为了规范统一，可以全部使用await。**这样有个好处，就是可以在编译期间检查所有Agent中的代码，如有发现使用了弃元运算符(_ = DoSomething())则提示代码编写不符合规范。**
 ```c#
